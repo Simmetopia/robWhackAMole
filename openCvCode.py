@@ -132,7 +132,7 @@ def show_bricks(image, bricks, color):
         cv2.drawContours(image, [b], 0, color, 2)
 
 
-image = get_from_file('test.jpg')
+image = get_from_file('leds.jpg')
 # image = get_from_webcam()
 cv2.imshow('raw', image)
 
