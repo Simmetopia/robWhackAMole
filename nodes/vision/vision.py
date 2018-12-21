@@ -4,7 +4,8 @@ import numpy as np
 
 
 def findBoxes(image, colorConstants):
-    NotImplementedError
+    raise NotImplementedError
+
 
 # should return something like
 # returnType = {
@@ -38,8 +39,7 @@ def contours(image, debug=False):
     """
     imgray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    im2, contours, hierarchy = cv2.findContours(
-        imgray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    im2, contours, hierarchy = cv2.findContours(imgray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     return contours, hierarchy
 
@@ -88,8 +88,7 @@ boundaries = [
 
 # loop over the boundaries
 for (lower, upper) in boundaries:
-    upperAsTuple = tuple(upper
-                         )
+    upperAsTuple = tuple(upper)
     # create NumPy arrays from the boundaries
     lower = np.array(lower, dtype="uint8")
     upper = np.array(upper, dtype="uint8")
