@@ -1,6 +1,4 @@
 <launch>
-
-
     <!-- Load controller configuration to parameter server -->
     <rosparam file="$(find rob_whack_a_mole)/conf/main_control.yaml" command="load"/>
 
@@ -12,7 +10,6 @@
 				joint1
 				joint2
 				joint3
-        joint4
-				"
+                joint4"
           output="screen"/>
 </launch>
