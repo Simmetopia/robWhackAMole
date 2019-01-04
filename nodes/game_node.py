@@ -21,7 +21,6 @@ class GameNode:
         rospy.Subscriber(new_target_topic, Targets, self.grab_and_drop)
 
     def start(self):
-        self._request_new_target()
         while True:
             if raw_input("Press enter to request another target\n") == "":
                 self._request_new_target()

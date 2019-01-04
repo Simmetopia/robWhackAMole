@@ -31,7 +31,7 @@ class JointMover:
             jtp = JointTrajectoryPoint(
                 positions=angles, velocities=[0.5] * self.N_JOINTS, time_from_start=self.duration)
             points.append(jtp)
-            self.duration += rospy.Duration(1)
+            self.duration += rospy.Duration(2)
         return points
 
     def _send_goal_and_wait_for_result(self, goal):
