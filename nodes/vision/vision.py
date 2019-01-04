@@ -39,7 +39,8 @@ def contours(image, debug=False):
     """
     imgray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    im2, contours, hierarchy = cv2.findContours(imgray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    im2, contours, hierarchy = cv2.findContours(
+        imgray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     return contours, hierarchy
 
@@ -100,8 +101,8 @@ for (lower, upper) in boundaries:
     # extra shit to detect more things
     single_channel = threshold_image(output, debug)
     cont, hierarchy = contours(single_channel, debug)
-
-    show_bricks(image, get_bricks(cont), upperAsTuple)
+    briks = get_bricks(cont)
+    show_bricks(image, briks, upperAsTuple)
 
     a = np.hstack([image, output])
     # show the images
