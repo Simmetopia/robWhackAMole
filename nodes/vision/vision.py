@@ -55,6 +55,7 @@ class Vision:
             to the bricks.
         """
         bricks = []
+        centerBricks = []
         for cnt in contours:
             epsilon = 0.1 * cv2.arcLength(cnt, True)
             approx = cv2.approxPolyDP(cnt, epsilon, True)
@@ -62,19 +63,24 @@ class Vision:
             area = cv2.contourArea(approx)
             box = cv2.boxPoints(rect)
             box = np.int0(box)
-            # if 20 < area < 380:
-            bricks.append((color, box))
-        return bricks
+
+            if 150 < area < 2200:
+                M = cv2.moments(cnt)
+                cX = int(M["m10"]/M["m00"])
+                cY = int(M["m01"]/M["m00"])
+                bricks.append(box)
+                centerBricks.append([color, (cX, cY)])
+        return bricks, centerBricks
 
     def show_bricks(self, image, bricks, color):
         for b in bricks:
-            cv2.drawContours(image, [b[1]], 0, color, 2)
+            cv2.drawContours(image, [b], 0, color, 2)
 
     def findVisionNodes(self, image):
         boundaries = [
-            ("red", [0, 15, 100], [100, 56, 240]),
-            ("yellow", [40, 175, 220], [60, 240, 255]),
-            ("blue", [75, 140, 75], [130, 240, 130]),
+            ("red", [50, 60, 180], [90, 80, 240]),
+            ("yellow", [40, 170, 200], [110, 200, 255]),
+            ("blue", [100, 10, 10], [150, 50, 40]),
         ]
         a = []
         # loop over the boundaries
@@ -92,9 +98,9 @@ class Vision:
             # extra shit to detect more things
             single_channel = self.threshold_image(output, self.debug)
             cont, hierarchy = self.contours(single_channel, self.debug)
-            briks = self.get_bricks(cont, color)
+            briks, centerBricks = self.get_bricks(cont, color)
             # a.append(self.get_bricks(cont))
-            a.append(briks)
+            a.append(centerBricks)
             # if len(a) == 0:
             # else:
             #     b = np.concatenate([a, briks])
@@ -103,6 +109,7 @@ class Vision:
             ab = np.hstack([image, output])
             # show the images
             cv2.imshow("images", ab)
+            cv2.waitKey(0)
         flat_list = []
         for sublist in a:
             for item in sublist:
