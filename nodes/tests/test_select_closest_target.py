@@ -15,7 +15,7 @@ class TestSelectClosestTarget(unittest.TestCase):
     def test_selecting_between_three_should_return_closest(self):
         closest = Target(Coordinate(0, 4, 2))
         targets = [Target(Coordinate(5, 2, 2)), Target(Coordinate(12, 22, 7)), closest]
-        [self.closest.find(targets)].should_be([closest])
+        self.assertEqual(self.closest.find(targets), closest)
 
 
 if __name__ == '__main__':

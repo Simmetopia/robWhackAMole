@@ -25,7 +25,7 @@ JointTrajectoryActionController for the joints.
     <!-- 
     	Load joint configuration to parameter server 
     -->
-    <rosparam file="$(find au_crustcrawler_base)/conf/joints.yaml" command="load"/>
+    <rosparam file="$(find rob_whack_a_mole)/conf/joints.yaml" command="load"/>
     
 
 	<!-- 

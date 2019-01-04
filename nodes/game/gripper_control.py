@@ -7,7 +7,7 @@ class GripperControl:
         self.gripper_cmd_pub = rospy.Publisher("/gripper/command", Float64, queue_size=10)
 
     def open(self):
-        self.gripper_cmd_pub.publish_found_boxes(2)
+        self.gripper_cmd_pub.publish(0)
 
     def close(self):
-        self.gripper_cmd_pub.publish_found_boxes(0)
+        self.gripper_cmd_pub.publish(1)

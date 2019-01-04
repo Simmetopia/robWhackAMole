@@ -31,8 +31,11 @@ class GameNode:
     def _request_new_target(self):
         self.pub.publish()
 
-    def grab_and_drop(self, targets):
-        target = self._get_target(targets)
+    def grab_and_drop(self, msg):
+        if len(msg.targets) == 0:
+            self.mover.go_to_default_position()
+            return
+        target = self._get_target(msg)
         self.mover.move_to_and_grab(target)
         self.mover.drop_in_dropzone()
         self._request_new_target()
