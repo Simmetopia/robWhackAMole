@@ -9,8 +9,9 @@ class FindClosest:
         position = self.arm_mover.current_position()
         closest = targets[0], self._distance_between(targets[0], position)
         for target in targets:
-            if self._distance_between(target, position) < closest[1]:
-                closest = target, self._distance_between(target, position)
+            distance_to_target = self._distance_between(target, position)
+            if distance_to_target < closest[1]:
+                closest = target, distance_to_target
         return closest[0]
 
     def _distance_between(self, p1, p2):
