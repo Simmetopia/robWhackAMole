@@ -115,7 +115,3 @@ class Vision:
 
     def __init__(self, debug=False):
         self.debug = debug
-
-
-image = cv2.imread("leds.jpg")
-asdfsaf = Vision().findVisionNodes(image)
