@@ -9,6 +9,7 @@ from brain.convert_to_robot_coords import convert
 from configuration_loader import ConfigurationLoader
 
 
+
 class MasterBrainNode:
     
     def __init__(self, target_topic, request_topic):
@@ -20,14 +21,17 @@ class MasterBrainNode:
         # get objects on table and game mode
         image = self._take_image()
         
-        #vision.FindObjects(image)
+        # Use vision node to identify all objects
+        self.Objects = 0 #vision.FindObjects(image)
         
-        self._filter_objects()
         # interpret game mode and select targets
-        # convert target cords to robot target cords
+        self._filter_objects(self.Objects)
+        
+        # convert target coordinates to robot target coordinates
         convert()
+        
         # publish targets with target_publisher
-        targets = [Target(2, 3, 1), Target(4, 2, 1)]
+        targets = [Target(2, 3, 1), Target(4, 2, 1)] # targets may be differently defined than this
         rospy.loginfo("Publishing targets")
         self.target_publisher.publish(targets)
 
@@ -53,11 +57,20 @@ class MasterBrainNode:
             print "try increasing the buffer size in line 13:"
 
 
-    def _filter_object(self):
+    def _filter_objects(colors):
         raise NotImplementedError
+        self.gameMode = 0
+        self.coloredBricks
+        self.modeObjects
+        # import areas from config
+        # Find modeObjects (white in area of Game Mode)
+        # return wanted colors = _find_mode(modeObjects)
+        
+        
     
     def _find_mode(self):
         raise NotImplementedError
+        
 
 
 if __name__ == '__main__':
