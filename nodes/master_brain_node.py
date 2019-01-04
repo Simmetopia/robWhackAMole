@@ -10,6 +10,7 @@ import numpy as np
 from brain.convert_to_robot_coords import convert
 from configuration_loader import ConfigurationLoader
 from vision import vision
+from vision import app_constants
 
 
 class MasterBrainNode:
@@ -20,9 +21,6 @@ class MasterBrainNode:
     #     rospy.Subscriber(request_topic, Empty, self._get_vision_data)
     #     rospy.init_node("master_brain")
 
-    boundriesX = [3, 612]
-    boundriesY = [41, 389]
-
     def _get_vision_data(self):
         # get objects on table and game mode
         # image = self._take_image()
@@ -30,7 +28,8 @@ class MasterBrainNode:
 
         # Use vision node to identify all objects
         # interpret game mode and select targets
-        self._filter_objects(vision.Vision().findVisionNodes(image))
+        filteredBricks = self._filter_objects(
+            vision.Vision().findVisionNodes(image))
 
         # convert target coordinates to robot target coordinates
         convert()
@@ -72,29 +71,27 @@ class MasterBrainNode:
             if i[0] == "white":
                 self.gameMode += 1
             else:
-                if self._cordinateInArea(i[1]):
+                if self._cordinateInArea(i[1], app_constants.robotWorkZone):
                     bricks.append(i)
-        self._find_mode(gameMode)
-        return bricks
+        return self._find_mode(gameMode, bricks)
 
     def _isInArea(self, coordinateToCheck, b):
         return coordinateToCheck > b[0] and coordinateToCheck < b[1]
 
-    def _cordinateInArea(self, coord_set):
-        xInRange = self._isInArea(coord_set[0], self.boundriesX)
-        yInRange = self._isInArea(coord_set[1], self.boundriesY)
+    def _cordinateInArea(self, coord_set, boundrySet):
+        xInRange = self._isInArea(coord_set[0], boundrySet.get(
+            app_constants.robotWorkZoneGetX))
+        yInRange = self._isInArea(coord_set[1], boundrySet.get(
+            app_constants.robotWorkZoneGetY))
         return xInRange and yInRange
 
-    def _find_mode(self, mode):
-        if 1:
-            # gamemode 1
-            return 1
-        elif 2:
-            # gamemode 2
-            return 2
+    def _find_mode(self, mode, bricks):
+        if mode == 1:
+            return filter(lambda x: x[0] == app_constants.red, bricks)
+        elif mode == 2:
+            return filter(lambda x: x[0] == app_constants.red or x[0] == app_constants.yellow, bricks)
         else:
-            # gamemode 3
-            return 3
+            return bricks
 
 # gamefield = [[6, 389], [612, 385],
 #              [3, 46], [610, 41]]

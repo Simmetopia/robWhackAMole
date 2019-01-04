@@ -1,6 +1,8 @@
 import cv2
 import argparse
 import numpy as np
+import app_constants
+import uuid
 
 
 def findBoxes(image, colorConstants):
@@ -77,15 +79,10 @@ class Vision:
             cv2.drawContours(image, [b], 0, color, 2)
 
     def findVisionNodes(self, image):
-        boundaries = [
-            ("red", [50, 60, 180], [90, 80, 240]),
-            ("yellow", [40, 170, 200], [110, 200, 255]),
-            ("blue", [100, 10, 10], [150, 50, 40]),
-        ]
+
         a = []
         # loop over the boundaries
-        for (color, lower, upper) in boundaries:
-            color
+        for (color, lower, upper) in app_constants.allBounderies:
             upperAsTuple = tuple(upper)
             # create NumPy arrays from the boundaries
             lower = np.array(lower, dtype="uint8")
@@ -108,8 +105,12 @@ class Vision:
 
             ab = np.hstack([image, output])
             # show the images
-            cv2.imshow("images", ab)
-            cv2.waitKey(0)
+            if self.debug:
+                cv2.imshow("images", ab)
+                cv2.waitKey(0)
+        cv2.imwrite(
+            'result_'+str(uuid.uuid4())+'.jpg', image)
+
         flat_list = []
         for sublist in a:
             for item in sublist:
