@@ -11,13 +11,16 @@ class ArmMover:
 
     def go_to_default_position(self):
         self._go_to_position(self.default_position)
+        self.joint_mover.open_gripper()
 
     def _go_to_position(self, position):
         initial = invkin(self.position.x, self.position.y, self.default_position.z)
         hover_above_target = invkin(position.x, position.y, self.default_position.z)
-        hit_target = invkin(position.x, position.y, position.z)
-        positions = [initial, hover_above_target, hit_target]
+        positions = [initial, hover_above_target]
         self.joint_mover.go_to(positions)
+        self.joint_mover.sleep(1)
+        hit_target = invkin(position.x, position.y, position.z)
+        self.joint_mover.go_to([hit_target])
         self.position = position
 
     def move_to_and_grab(self, target):
