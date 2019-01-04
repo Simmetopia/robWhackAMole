@@ -9,7 +9,6 @@ from configuration_loader import ConfigurationLoader
 from game.arm_mover import ArmMover
 from game.gripper_control import GripperControl
 from game.joint_mover import JointMover
-from game.joint_trajectory_facade import JointTrajectoryFacade
 from game.find_closest import FindClosest
 
 
@@ -52,8 +51,7 @@ class GameNode:
 
 if __name__ == "__main__":
     rospy.init_node("game_node")
-    jtf = JointTrajectoryFacade("/arm_controller/follow_joint_trajectory")
-    joint_mover = JointMover(jtf, GripperControl())
+    joint_mover = JointMover("/arm_controller/follow_joint_trajectory", GripperControl())
     config = ConfigurationLoader("config.json")
     dropzone = config.dropzone()
     default_position = config.default_position()
