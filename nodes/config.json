@@ -1,0 +1,18 @@
+{
+  "positions": {
+    "dropzone": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "default": {
+      "x": 400,
+      "y": 0,
+      "z": 165
+    }
+  },
+  "topics": {
+    "game_publish": "target_request",
+    "game_subscribe": "new_target"
+  }
+}

@@ -17,8 +17,8 @@ def get_from_webcam():
     b = bytes.find('\xff\xd9')
 
     if a != -1 and b != -1:
-        jpg = bytes[a:b+2]
-        bytes = bytes[b+2:]
+        jpg = bytes[a:b + 2]
+        bytes = bytes[b + 2:]
         i = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8),
                          cv2.CV_LOAD_IMAGE_COLOR)
         return i
@@ -45,7 +45,7 @@ def get_bricks(contours):
     """
     bricks = []
     for cnt in contours:
-        epsilon = 0.1*cv2.arcLength(cnt, True)
+        epsilon = 0.1 * cv2.arcLength(cnt, True)
         approx = cv2.approxPolyDP(cnt, epsilon, True)
         rect = cv2.minAreaRect(approx)
         area = cv2.contourArea(approx)
@@ -149,7 +149,6 @@ upper_yellow = np.array([30, 255, 255])
 
 lower_red = np.array([0, 50, 50])
 upper_red = np.array([20, 255, 255])
-
 
 blue_bricks = do_full(image, hsv, upper_blue, lower_blue, True)
 green_bricks = do_full(image, hsv, upper_green, lower_green)
