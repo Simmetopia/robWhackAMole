@@ -14,11 +14,10 @@ class ArmMover:
 
     def _go_to_position(self, position):
         initial = invkin(self.position.x, self.position.y, self.default_position.z)
-        self.joint_mover.go_to(initial)
         hover_above_target = invkin(position.x, position.y, self.default_position.z)
-        self.joint_mover.go_to(hover_above_target)
         hit_target = invkin(position.x, position.y, position.z)
-        self.joint_mover.go_to(hit_target)
+        positions = [initial, hover_above_target, hit_target]
+        self.joint_mover.go_to(positions)
         self.position = position
 
     def move_to_and_grab(self, target):
@@ -30,7 +29,7 @@ class ArmMover:
 
     def drop_in_dropzone(self):
         self._go_to_position(self.dropzone)
-        self.joint_mover.sleep(1)
+        self.joint_mover.sleep(2)
         self.joint_mover.open_gripper()
 
     def current_position(self):
