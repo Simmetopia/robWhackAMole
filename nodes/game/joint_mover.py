@@ -1,34 +1,43 @@
+import actionlib
+import rospy
+from control_msgs.msg import FollowJointTrajectoryAction
+from control_msgs.msg import FollowJointTrajectoryGoal
+from trajectory_msgs.msg import JointTrajectory
+from trajectory_msgs.msg import JointTrajectoryPoint
+
+
 class JointMover:
     N_JOINTS = 4
     NAMES = ["joint1", "joint2", "joint3", "joint4"]
 
-    def __init__(self, joint_trajectory_facade, gripper_control):
-        self.joint_trajectory = joint_trajectory_facade
-        self.client = joint_trajectory_facade.get_client()
+    def __init__(self, server_name, gripper_control):
+        self.client = actionlib.SimpleActionClient(server_name, FollowJointTrajectoryAction)
         self.gripper = gripper_control
 
-    def sleep(self, time):
-        self.joint_trajectory.sleep(time)
+    def sleep(self, duration):
+        rospy.sleep(duration)
 
-    def go_to(self, joint_angles):
-        joint_points = self._create_joint_trajectory_points(joint_angles)
-        jt = self.joint_trajectory.create_trajectory(self.NAMES, joint_points)
-        tolerance = self.duration + self.joint_trajectory.duration(2)
-        goal = self.joint_trajectory.create_goal(jt, tolerance)
+    def go_to(self, collection_of_angles):
+        joint_points = self._create_joint_trajectory_points(collection_of_angles)
+        jt = JointTrajectory(joint_names=self.NAMES, points=joint_points)
+        tolerance = self.duration + rospy.Duration(2)
+        goal = FollowJointTrajectoryGoal(trajectory=jt, goal_time_tolerance=tolerance)
         self._send_goal_and_wait_for_result(goal)
 
-    def _create_joint_trajectory_points(self, joint_angles):
-        self.duration = self.joint_trajectory.duration(1)
-        jtp = self.joint_trajectory.create_point(joint_angles, self.N_JOINTS, self.duration)
-        self.duration += self.joint_trajectory.duration(2)
-        return [jtp]
+    def _create_joint_trajectory_points(self, collection_of_angles):
+        self.duration = rospy.Duration(1)
+        points = []
+        for angles in collection_of_angles:
+            jtp = JointTrajectoryPoint(
+                positions=angles, velocities=[0.5] * self.N_JOINTS, time_from_start=self.duration)
+            points.append(jtp)
+            self.duration += rospy.Duration(1)
+        return points
 
     def _send_goal_and_wait_for_result(self, goal):
         self.client.wait_for_server()
-        # print goal
         self.client.send_goal(goal)
         self.client.wait_for_result()
-        # print self.client.get_result()
 
     def open_gripper(self):
         self.gripper.open()

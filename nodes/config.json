@@ -13,6 +13,6 @@
   },
   "topics": {
     "game_publish": "target_request",
-    "game_subscribe": "new_target"
+    "game_subscribe": "new_targets"
   }
 }
