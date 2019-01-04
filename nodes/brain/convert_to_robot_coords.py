@@ -2,9 +2,7 @@
 # below is a example of x,y coordinates that should be translated to
 # coordinates that the robot can response to.
 
-# This function should find the center of the square.
 
-exampleInput = [[21, 32], [41, 42], [21, 32], [41, 42]]
 
 
 class ConverterNode:
@@ -13,26 +11,24 @@ class ConverterNode:
         convertedObj = []
         
         for obj in objects:
-            robCorners = convertSingleObject(obj[1])
-            convertedObj.append(obj[0], robCorners)
+            robObjCenter = convertCenter(obj[1])
+            convertedObj.append(obj[0], robCenter)
             
         return convertedObj
 
     
-    def convertSingleObject(singleObject):
-        xbr = 100
-        ybr = 50
-        convertedCorners = []
+    def convertCenter(singleObject):
+        #robot (0,0) = image (307,369) - OBS robot x-axis = image y-axis
+        xZero = 369 
+        yZero = 307
+
+        x = xZero - singleObject[1] 
+        y = yZero - singleObject[0]
         
-        for so in singleObject:
-            x = xbr - so[0]
-            y = so[0] - ybr
-            convertedCorners.append([x,y])
-        
-        return convertedCorners
+        return [x,y]
             
     
     def findAngle():
         NotImplementedError
 
-# find a logical return value that takes into account the angle of the block
+
