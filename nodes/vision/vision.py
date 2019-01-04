@@ -70,10 +70,7 @@ class Vision:
         for b in bricks:
             cv2.drawContours(image, [b[1]], 0, color, 2)
 
-    def findVisionNodes(self):
-                # load the image
-        image = cv2.imread("leds.jpg")
-
+    def findVisionNodes(self, image):
         boundaries = [
             ("red", [0, 15, 100], [100, 56, 240]),
             ("yellow", [40, 175, 220], [60, 240, 255]),
@@ -120,5 +117,5 @@ class Vision:
         self.debug = debug
 
 
-asdfsaf = Vision().findVisionNodes()
-asdfsaf
+image = cv2.imread("leds.jpg")
+asdfsaf = Vision().findVisionNodes(image)
