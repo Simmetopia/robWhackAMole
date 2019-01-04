@@ -7,11 +7,32 @@
 exampleInput = [[21, 32], [41, 42], [21, 32], [41, 42]]
 
 
-def convert():
-    NotImplementedError
+class ConverterNode:
 
+    def convert(objects):
+        convertedObj = []
+        
+        for obj in objects:
+            robCorners = convertSingleObject(obj[1])
+            convertedObj.append(obj[0], robCorners)
+            
+        return convertedObj
 
-def findAngle():
-    NotImplementedError
+    
+    def convertSingleObject(singleObject):
+        xbr = 100
+        ybr = 50
+        convertedCorners = []
+        
+        for so in singleObject:
+            x = xbr - so[0]
+            y = so[0] - ybr
+            convertedCorners.append([x,y])
+        
+        return convertedCorners
+            
+    
+    def findAngle():
+        NotImplementedError
 
 # find a logical return value that takes into account the angle of the block
