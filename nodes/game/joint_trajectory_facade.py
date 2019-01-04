@@ -24,3 +24,6 @@ class JointTrajectoryFacade:
 
     def duration(self, duration):
         return rospy.Duration(duration)
+
+    def sleep(self, duration):
+        rospy.sleep(duration)

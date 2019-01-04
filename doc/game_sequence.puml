@@ -1,0 +1,11 @@
+@startuml
+
+"/new_target" <- game_node: subscribe
+"/new_target" -> game_node: grab_and_drop(targets)
+game_node -> find_closest: find(targets)
+game_node <-- find_closest: target
+game_node -> arm_mover: move_to_and_grab(target)
+game_node -> arm_mover: drop_in_dropzone()
+game_node -> "/request_target": publish(Empty)
+
+@enduml
