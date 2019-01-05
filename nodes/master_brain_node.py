@@ -33,17 +33,17 @@ class MasterBrainNode:
 
         targets = []
         for c in converted:
-            targets.append(Target(c[0], c[1], 0))
+            targets.append(Target(c[0], c[1], 15))
         # publish targets with target_publisher
         # targets may be different than this
-        rospy.loginfo("Publishing targets")
+        rospy.loginfo("Publishing %s targets" % len(targets))
         self.target_publisher.publish(targets)
 
     def _take_image(self):
         """
         Fetches an image from the webcam
         """
-        print "trying to fetch from webcam..."
+        rospy.loginfo("Trying to fetch from webcam...")
         stream = urllib.urlopen('http://192.168.0.20/image/jpeg.cgi')
         bytes = stream.read(64500)
         a = bytes.find('\xff\xd8')
@@ -54,8 +54,7 @@ class MasterBrainNode:
             i = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
             return i
         else:
-            print "did not receive image, "
-            print "try increasing the buffer size in line 13:"
+            rospy.loginfo("Failed to retrieve image!")
 
     def _filter_objects(self, detectedObjects):
         gameMode = 0
@@ -63,6 +62,7 @@ class MasterBrainNode:
         # import areas from config
         # Find modeObjects (white in area of Game Mode)
         # return wanted colors = _find_mode(gameMode)
+        rospy.loginfo("Detected %s objects" % len(detectedObjects))
         for i in detectedObjects:
             if i[0] == "white":
                 self.gameMode += 1

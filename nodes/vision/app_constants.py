@@ -6,8 +6,8 @@ yellow = "yellow"
 blue = "blue"
 white = "white"
 
-redBounderies = (red, [50, 60, 180], [90, 80, 240])
-yellowBounderies = (yellow, [40, 170, 200], [110, 200, 255])
+redBounderies = (red, [44, 60, 190], [60, 71, 220])
+yellowBounderies = (yellow, [83, 232, 222], [141, 236, 239])
 blueBounderies = (blue, [100, 10, 10], [150, 50, 40])
 
 allBounderies = [yellowBounderies, redBounderies,  blueBounderies]
@@ -17,7 +17,7 @@ robotWorkZoneGetY = "boundriesY"
 
 robotWorkZone = {
     "boundriesX": [3, 612],
-    "boundriesY": [41, 389]
+    "boundriesY": [41, 225]
 }
 
 gameModeZone = {

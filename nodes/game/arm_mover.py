@@ -10,8 +10,10 @@ class ArmMover:
         self.dropzone = dropzone
 
     def go_to_default_position(self):
-        self._go_to_position(self.default_position)
+        self.joint_mover.sleep(2)
         self.joint_mover.open_gripper()
+        self.joint_mover.sleep(1)
+        self._go_to_position(self.default_position)
 
     def _go_to_position(self, position):
         initial = invkin(self.position.x, self.position.y, self.default_position.z)
@@ -26,14 +28,16 @@ class ArmMover:
     def move_to_and_grab(self, target):
         self.joint_mover.open_gripper()
         self._go_to_position(target)
-        self.joint_mover.sleep(2)
+        self.joint_mover.sleep(1)
         self.joint_mover.close_gripper()
         self.joint_mover.sleep(2)
 
     def drop_in_dropzone(self):
         self._go_to_position(self.dropzone)
-        self.joint_mover.sleep(2)
+        self.joint_mover.sleep(1)
         self.joint_mover.open_gripper()
+        self.joint_mover.sleep(2)
+        self.dropzone.z += 15
 
     def current_position(self):
         return self.position
