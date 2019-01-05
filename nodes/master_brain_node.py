@@ -24,12 +24,12 @@ class MasterBrainNode:
     def _get_vision_data(self):
         # get objects on table and game mode
         # image = self._take_image()
-        image = cv2.imread("image.jpg")
+        image = cv2.imread("on.jpg")
 
         # Use vision node to identify all objects
         # interpret game mode and select targets
         filteredBricks = self._filter_objects(
-            vision.Vision().findVisionNodes(image))
+            vision.Vision(True).findVisionNodes(image))
 
         # convert target coordinates to robot target coordinates
         convert()
@@ -69,7 +69,8 @@ class MasterBrainNode:
         # return wanted colors = _find_mode(gameMode)
         for i in detectedObjects:
             if i[0] == "white":
-                self.gameMode += 1
+                if self._cordinateInArea(i[1], app_constants.gameModeZone):
+                    gameMode += 1
             else:
                 if self._cordinateInArea(i[1], app_constants.robotWorkZone):
                     bricks.append(i)

@@ -65,8 +65,11 @@ class Vision:
             area = cv2.contourArea(approx)
             box = cv2.boxPoints(rect)
             box = np.int0(box)
+            lowerBoundry = 150
+            if color == app_constants.white:
+                lowerBoundry = 23
 
-            if 150 < area < 2200:
+            if lowerBoundry < area < 2200:
                 M = cv2.moments(cnt)
                 cX = int(M["m10"]/M["m00"])
                 cY = int(M["m01"]/M["m00"])
