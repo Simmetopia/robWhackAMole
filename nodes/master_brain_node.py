@@ -15,7 +15,8 @@ from vision import app_constants
 
 class MasterBrainNode:
     def __init__(self, target_topic, request_topic):
-        self.target_publisher = rospy.Publisher(target_topic, Targets, queue_size=10)
+        self.target_publisher = rospy.Publisher(
+            target_topic, Targets, queue_size=10)
         rospy.Subscriber(request_topic, Empty, self._get_vision_data)
         rospy.init_node("master_brain")
 
@@ -26,7 +27,8 @@ class MasterBrainNode:
 
         # Use vision node to identify all objects
         # interpret game mode and select targets
-        filteredBricks = self._filter_objects(vision.Vision().findVisionNodes(image))
+        filteredBricks = self._filter_objects(
+            vision.Vision().findVisionNodes(image))
 
         # convert target coordinates to robot target coordinates
         converted = ConverterNode().convert(filteredBricks)
@@ -51,7 +53,8 @@ class MasterBrainNode:
 
         if a != -1 and b != -1:
             jpg = bytes[a:b + 2]
-            i = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
+            i = cv2.imdecode(np.fromstring(
+                jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
             return i
         else:
             print "did not receive image, "
@@ -65,7 +68,8 @@ class MasterBrainNode:
         # return wanted colors = _find_mode(gameMode)
         for i in detectedObjects:
             if i[0] == "white":
-                self.gameMode += 1
+                if self._cordinateInArea(i[1], app_constants.gameModeZone):
+                    gameMode += 1
             else:
                 if self._cordinateInArea(i[1], app_constants.robotWorkZone):
                     bricks.append(i)
