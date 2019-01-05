@@ -1,5 +1,4 @@
 # create the hues for detecting colors in both regular game,
-#  and the game mode leds. Look below for inspiration
 
 red = "red"
 yellow = "yellow"

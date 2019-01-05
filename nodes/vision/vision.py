@@ -5,19 +5,6 @@ import app_constants
 import uuid
 import rospy
 
-
-def findBoxes(image, colorConstants):
-    raise NotImplementedError
-
-
-# should return something like
-# returnType = {
-#     "red":[[[x,y]]...],
-#     "green":[[[x,y]]...],
-#     "blue":[[[x,y]]...],
-# }
-# define the list of boundaries
-
 class Vision:
     debug = False
 
@@ -43,10 +30,8 @@ class Vision:
         then call findContours
         """
         imgray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
         im2, contours, hierarchy = cv2.findContours(
             imgray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
         return contours, hierarchy
 
     def get_bricks(self, contours, color):
@@ -95,24 +80,18 @@ class Vision:
             mask = cv2.inRange(image, lower, upper)
             output = cv2.bitwise_and(image, image, mask=mask)
 
-            # extra shit to detect more things
             single_channel = self.threshold_image(output, self.debug)
             cont, hierarchy = self.contours(single_channel, self.debug)
             briks, centerBricks = self.get_bricks(cont, color)
-            # a.append(self.get_bricks(cont))
             a.append(centerBricks)
-            # if len(a) == 0:
-            # else:
-            #     b = np.concatenate([a, briks])
-            self.show_bricks(image, briks, upperAsTuple)
-
             ab = np.hstack([image, output])
             # show the images
             if self.debug:
                 cv2.imshow("images", ab)
                 cv2.waitKey(0)
+        # writes the resulting image to drive with a UUID()
         cv2.imwrite(
-            'result_images/result_'+str(uuid.uuid4())+'.jpg', image)
+                'result_images/result_'+str(uuid.uuid4())+'.jpg', image)
 
         flat_list = []
         for sublist in a:

@@ -36,7 +36,6 @@ class MasterBrainNode:
         for c in converted:
             targets.append(Target(c[0], c[1], 15))
         # publish targets with target_publisher
-        # targets may be different than this
         rospy.loginfo("Publishing %s targets" % len(targets))
         self.target_publisher.publish(targets)
 
@@ -60,9 +59,7 @@ class MasterBrainNode:
     def _filter_objects(self, detectedObjects):
         gameMode = 0
         bricks = []
-        # import areas from config
         # Find modeObjects (white in area of Game Mode)
-        # return wanted colors = _find_mode(gameMode)
         rospy.loginfo("Detected %s objects" % len(detectedObjects))
         for i in detectedObjects:
             if i[0] == "white":
@@ -95,8 +92,6 @@ class MasterBrainNode:
         print bik
         return bik
 
-# gamefield = [[6, 389], [612, 385],
-#              [3, 46], [610, 41]]
 
 if __name__ == '__main__':
     config = ConfigurationLoader("config.json")
