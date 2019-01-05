@@ -3,6 +3,7 @@ import argparse
 import numpy as np
 import app_constants
 import uuid
+import rospy
 
 
 def findBoxes(image, colorConstants):
@@ -82,7 +83,6 @@ class Vision:
             cv2.drawContours(image, [b], 0, color, 2)
 
     def findVisionNodes(self, image):
-
         a = []
         # loop over the boundaries
         for (color, lower, upper) in app_constants.allBounderies:
@@ -112,7 +112,7 @@ class Vision:
                 cv2.imshow("images", ab)
                 cv2.waitKey(0)
         cv2.imwrite(
-            'result_'+str(uuid.uuid4())+'.jpg', image)
+            'result_images/result_'+str(uuid.uuid4())+'.jpg', image)
 
         flat_list = []
         for sublist in a:

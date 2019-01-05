@@ -10,4 +10,4 @@ class GripperControl:
         self.gripper_cmd_pub.publish(0)
 
     def close(self):
-        self.gripper_cmd_pub.publish(1)
+        self.gripper_cmd_pub.publish(.8)
