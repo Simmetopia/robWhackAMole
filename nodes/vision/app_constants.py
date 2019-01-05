@@ -9,8 +9,9 @@ white = "white"
 redBounderies = (red, [44, 60, 190], [60, 71, 220])
 yellowBounderies = (yellow, [83, 232, 222], [141, 236, 239])
 blueBounderies = (blue, [100, 10, 10], [150, 50, 40])
-
-allBounderies = [yellowBounderies, redBounderies,  blueBounderies]
+whiteBounderies = (white, [200, 200, 205], [230, 240, 235])
+allBounderies = [whiteBounderies, yellowBounderies,
+                 redBounderies,  blueBounderies]
 
 robotWorkZoneGetX = "boundriesX"
 robotWorkZoneGetY = "boundriesY"
@@ -23,9 +24,4 @@ robotWorkZone = {
 gameModeZone = {
     "boundriesX": [219, 615],
     "boundriesY": [342, 389]
-}
-
-dropZone = {
-    "boundriesX": [4, 283],
-    "boundriesY": [225, 389]
 }
