@@ -3,32 +3,20 @@
 # coordinates that the robot can response to.
 
 
-
-
 class ConverterNode:
-
-    def convert(objects):
+    def convert(self, objects):
         convertedObj = []
-        
         for obj in objects:
-            robObjCenter = convertCenter(obj[1])
-            convertedObj.append(obj[0], robCenter)
-            
+            rob_obj_center = self.convertCenter(obj[1])
+            convertedObj.append(rob_obj_center)
         return convertedObj
 
-    
-    def convertCenter(singleObject):
-        #robot (0,0) = image (307,369) - OBS robot x-axis = image y-axis
-        xZero = 369 
-        yZero = 307
+    def convertCenter(self, single_object):
+        # robot (0,0) = image (307,369) - OBS robot x-axis = image y-axis
+        xZero = 351
+        yZero = 308
 
-        x = xZero - singleObject[1] 
-        y = yZero - singleObject[0]
-        
-        return [x,y]
-            
-    
-    def findAngle():
-        NotImplementedError
+        x = xZero - single_object[1]
+        y = yZero - single_object[0]
 
-
+        return [x, y]
