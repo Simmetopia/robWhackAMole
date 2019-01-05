@@ -9,6 +9,12 @@ class JointMoverSpy:
     def received_angles(self):
         return self.angles
 
+    def open_gripper(self):
+        pass
+
+    def sleep(self, duration):
+        pass
+
     def close_gripper(self):
         self.closed_gripper = True
 

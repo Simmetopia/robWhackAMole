@@ -10,7 +10,7 @@ def invkin(x, y, z):
     d1 = 165  # hoejden fra bordplade til 2. led.
     a1 = 0  # forskydningen langs y-aksen mellem 1. og 2. led.
     a2 = 170  # afstanden mellem 2. og 3. led.
-    d4 = 240  # afstanden fra 3. led og ud til griberens gribepunkts inkl. 4. led.
+    d4 = 230  # afstanden fra 3. led og ud til griberens gribepunkts inkl. 4. led.
 
     q1 = math.atan2(y, x)
     r2 = (x - a1 * math.cos(q1)) ** 2 + (y - a1 * math.sin(q1)) ** 2
