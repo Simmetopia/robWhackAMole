@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import uuid
 
 import rospy
 import cv2
@@ -15,20 +16,18 @@ from vision import app_constants
 
 class MasterBrainNode:
     def __init__(self, target_topic, request_topic):
-        self.target_publisher = rospy.Publisher(
-            target_topic, Targets, queue_size=10)
+        self.target_publisher = rospy.Publisher(target_topic, Targets, queue_size=10)
         rospy.Subscriber(request_topic, Empty, self._get_vision_data)
         rospy.init_node("master_brain")
 
     def _get_vision_data(self, empty_msg):
         # get objects on table and game mode
         image = self._take_image()
-        #image = cv2.imread("image.jpg")
+        # image = cv2.imread("image.jpg")
 
         # Use vision node to identify all objects
         # interpret game mode and select targets
-        filteredBricks = self._filter_objects(
-            vision.Vision().findVisionNodes(image))
+        filteredBricks = self._filter_objects(vision.Vision(False).findVisionNodes(image))
 
         # convert target coordinates to robot target coordinates
         converted = ConverterNode().convert(filteredBricks)
@@ -53,8 +52,7 @@ class MasterBrainNode:
 
         if a != -1 and b != -1:
             jpg = bytes[a:b + 2]
-            i = cv2.imdecode(np.fromstring(
-                jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
+            i = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
             return i
         else:
             rospy.loginfo("Failed to retrieve image!")
@@ -86,13 +84,16 @@ class MasterBrainNode:
         return xInRange and yInRange
 
     def _find_mode(self, mode, bricks):
+        rospy.loginfo("I am in mode %s" % mode)
+        bik = []
         if mode == 1:
-            return filter(lambda x: x[0] == app_constants.red, bricks)
+            bik = filter(lambda x: x[0] == app_constants.red, bricks)
         elif mode == 2:
-            return filter(lambda x: x[0] == app_constants.red or x[0] == app_constants.yellow, bricks)
+            bik = filter(lambda x: x[0] == app_constants.red or x[0] == app_constants.yellow, bricks)
         else:
-            return bricks
-
+            bik = bricks
+        print bik
+        return bik
 
 # gamefield = [[6, 389], [612, 385],
 #              [3, 46], [610, 41]]

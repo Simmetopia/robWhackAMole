@@ -13,8 +13,7 @@ from game.find_closest import FindClosest
 
 
 class GameNode:
-    def __init__(self, mover, find_closest,
-                 request_target_topic, new_target_topic):
+    def __init__(self, mover, find_closest, request_target_topic, new_target_topic):
         self.mover = mover
         self.find_closest = find_closest
         self.pub = rospy.Publisher(request_target_topic, Empty, queue_size=10)

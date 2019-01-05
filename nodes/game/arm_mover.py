@@ -37,7 +37,7 @@ class ArmMover:
         self.joint_mover.sleep(1)
         self.joint_mover.open_gripper()
         self.joint_mover.sleep(2)
-        self.dropzone.z += 15
+        self.dropzone.z += 5
 
     def current_position(self):
         return self.position
